@@ -285,9 +285,11 @@ app.post("/airtel/disbursement", (req, res) => {
         axios(config)
           .then(function (response) {
             console.log(JSON.stringify(response.data));
+            res.json(response.data)
           })
           .catch(function (error) {
             console.log(error);
+            res.json(error.response.data)
           });
       })
       .catch(function (error) {
@@ -298,7 +300,7 @@ app.post("/airtel/disbursement", (req, res) => {
 })
 
 // Airtel Money Disbursement Refund Using Airtel Money ID
-app.post("/airtel/collection/refund/:airtelMoneyId", (req, res) => {
+app.post("/airtel/disbursement/refund/:airtelMoneyId", (req, res) => {
   var data = JSON.stringify({
     "client_id": client_id,
     "client_secret": client_secret,
@@ -318,11 +320,26 @@ app.post("/airtel/collection/refund/:airtelMoneyId", (req, res) => {
   axios(config)
     .then(function (response) {
       console.log(JSON.stringify(response.data))
+      // PIN Encryption
+      var fourDigitPIN = 1234
+      var pubilc_key = `-----BEGIN PUBLIC KEY-----
+      MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCkq3XbDI1s8Lu7SpUBP+bqOs/MC6PKWz
+      6n/0UkqTiOZqKqaoZClI3BUDTrSIJsrN1Qx7ivBzsaAYfsB0CygSSWay4iyUcnMVEDrNVO
+      JwtWvHxpyWJC5RfKBrweW9b8klFa/CfKRtkK730apy0Kxjg+7fF0tB4O3Ic9Gxuv4pFkbQ
+      IDAQAB
+      -----END PUBLIC KEY-----`
+      // Encrypt with the public key
+      var encrypt = new JSEncrypt();
+      encrypt.setPublicKey(pubilc_key);
+      var encryptedPIN = encrypt.encrypt(fourDigitPIN)
+      console.log("encryptedPIN", encryptedPIN)
+
       // Disbursement Refund Request Using Bearer Token
       var data = JSON.stringify({
         "transaction": {
           "airtel_money_id": req.params.airtelMoneyId
-        }
+        },
+        "pin": encryptedPIN
       });
 
       var config = {
@@ -340,7 +357,7 @@ app.post("/airtel/collection/refund/:airtelMoneyId", (req, res) => {
 
       axios(config)
         .then(function (response) {
-          console.log(JSON.stringify(response.data));
+          console.log(JSON.stringify(response.data))
           res.json(response.data)
         })
         .catch(function (error) {
