@@ -16,7 +16,7 @@ Visiting `http://localhost:3000/` should display; *Welcome to your Airtel Money 
     ```
         {
             "amount": 1000,
-            "number": 9999999999
+            "number": 9999999999,
             "reference": "Testing transaction"
         }
     ```
