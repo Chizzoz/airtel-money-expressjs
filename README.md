@@ -1,6 +1,16 @@
 # airtel-money-expressjs
 Airtel Money Developer API ExpressJS Client
 
+Documentation and official resources can be found at Airtel Developer Portal: https://developers.airtel.africa/
+
+## Prerequisites
+1. You have Signed Up at: https://developers.airtel.africa/signup
+
+2. You have created at Application on Airtel Developers Portal: https://developers.airtel.africa/developer/register
+
+3. You possess both *Client ID* and *Client Secret Key*
+
+
 ## Getting Started
 After cloning or downloading this repo, run `npm install`.
 
