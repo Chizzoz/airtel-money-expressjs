@@ -46,7 +46,7 @@ Visiting `http://localhost:3000/` should display; *Welcome to your Airtel Money 
             "pin": 1234
         }
     ```
-5. Collection Refund
+5. Disbursement Refund
     POST - `http://localhost:3000/airtel/disbursement/refund/{airtelMoneyId}`
 
     Sample Payload
